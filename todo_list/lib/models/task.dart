@@ -17,7 +17,7 @@ class Task{
 
 
   Task({ required this.content, required this.userid, required this.dueDate, required this.priority,
-    String? pTitle, String? pid}) : completed=false, id=uuid.v4(), tags =[], createdAt = DateTime.now(){
+    String? pTitle, String? pid, this.completed = false }) : id=uuid.v4(), tags =[], createdAt = DateTime.now(){
         id= pid ??id;
   }
 

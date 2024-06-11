@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/services/task_service.dart';
 
 class Master extends StatelessWidget {
   const Master({super.key});
@@ -11,8 +12,15 @@ class Master extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: const Center(
-        child: Text('Hello World!'),
+        child: Column(
+            children: [
+              Text('Hello World!'),
+              Text("Ici"),
+              TaskService()
+            ]
+        ),
       ),
+
       floatingActionButton: FloatingActionButton(
           onPressed: onPressed,
           backgroundColor: Colors.green,

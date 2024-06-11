@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 
 import 'package:todo_list/models/task.dart';
+import 'package:todo_list/screens/task_preview.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = Uuid();
 
-class TaskMaster extends StatefulWidget {
-  const TaskMaster({super.key});
+class TaskService extends StatefulWidget {
+  const TaskService({super.key});
 
   @override
-  State<TaskMaster> createState() => _TaskMaster();
+  State<TaskService> createState() => _TaskService();
 }
 
-class _TaskMaster extends State<TaskMaster> {
+class _TaskService extends State<TaskService> {
 
   // Retourne une Future de type 'List' (liste d'objets Task)
   Future<List<Task>>? _fetchTask() async {
@@ -24,7 +25,8 @@ class _TaskMaster extends State<TaskMaster> {
           content: faker.lorem.sentence(),
           userid: uuid.v1(),
           dueDate: faker.date.dateTime(),
-          priority: "low"
+          priority: "low",
+          completed: faker.randomGenerator.boolean()
         ));
     return tasks;
   }
@@ -41,7 +43,10 @@ class _TaskMaster extends State<TaskMaster> {
                 return ListView.builder(
                   padding: const EdgeInsets.all(8),
                   itemCount: snapshot.data?.length,
-                  itemBuilder: ,
+                  itemBuilder: (BuildContext context, int index){
+                    // Obliger de mettre un point ! pour imposer que la valeur en paramètre n'est pas nulle
+                    return TaskPreview(task: snapshot.data![index]);
+                  },
                 );
               }
               else if(snapshot.hasError){
