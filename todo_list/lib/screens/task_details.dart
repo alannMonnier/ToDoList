@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../models/task.dart';
+
 class TaskDetails extends StatefulWidget {
-  const TaskDetails({super.key});
+
+  final Task task;
+
+  const TaskDetails({super.key, required this.task});
 
   @override
   State<TaskDetails> createState() => _DetailsState();

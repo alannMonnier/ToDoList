@@ -15,13 +15,14 @@ class TaskPreview extends StatelessWidget {
     return ListTile(
       leading: Icon(
         Icons.circle,
-        color : task.completed==true ? Colors.green : Colors.red,
+        color : (task.completed == true) ? Colors.green : Colors.red,
       ),
+      selectedColor: task.completed==true ? Colors.green : Colors.red,
       title: Text(
-        "Id : ${task.id}\n Title : ${task.title}\nContent : ${task.content}",
+        "Id : ${task.id}\n \nContent : ${task.content}",
       ),
       subtitle: Text(
-        "Date limite de réalisation : ${task.dueDate}\nPriorité : ${task.priority}",
+        "Title : ${task.title}",
       ),
     );
   }
