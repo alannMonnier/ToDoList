@@ -11,14 +11,19 @@ var uuid = const Uuid();
 
 final TaskService taskService = TaskService();
 
-class TaskMaster extends StatelessWidget {
+class TaskMaster extends StatefulWidget {
 
   const TaskMaster({super.key});
 
   @override
+  _TaskMaster createState() => _TaskMaster();
+}
+
+class _TaskMaster extends State<TaskMaster>{
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
+    return Center(
         child: FutureBuilder<List<Task>>(
             future: taskService.fetchTask(),
             // Builder gérer le cas d'error, de data et de load
@@ -27,18 +32,18 @@ class TaskMaster extends StatelessWidget {
                 return Column(
                   children: [
                     Expanded(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(8),
-                        itemCount: snapshot.data?.length,
-                        scrollDirection: Axis.vertical,
-                        itemBuilder: (BuildContext context, int index){
-                          // Obliger de mettre un point ! pour imposer que la valeur en paramètre n'est pas nulle
-                          return TaskPreview(task: snapshot.data![index]);
-                        },
+                        child: ListView.builder(
+                          padding: const EdgeInsets.all(8),
+                          itemCount: snapshot.data?.length,
+                          scrollDirection: Axis.vertical,
+                          itemBuilder: (BuildContext context, int index){
+                            // Obliger de mettre un point ! pour imposer que la valeur en paramètre n'est pas nulle
+                            return TaskPreview(task: snapshot.data![index]);
+                          },
+                        ),
                       ),
-                    ),
                   ]
-                  );
+                );
               }
               else if(snapshot.hasError){
                 return Text('Error : ${snapshot.error}');
@@ -49,15 +54,6 @@ class TaskMaster extends StatelessWidget {
               }
             }
         ),
-      ),
-
-      floatingActionButton: FloatingActionButton(
-        // Changement de route va sur l'écran fenêtre
-        onPressed: () { Navigator.pushNamed(context, '/taskForm'); },
-        tooltip: 'Increment',
-        backgroundColor: Colors.orange,
-        child: const Icon(Icons.add),
-      ),
-    );
+      );
   }
 }

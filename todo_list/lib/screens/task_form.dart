@@ -3,15 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 var uuid = const Uuid();
+// Objets qui possède les informations sur le formulaire courant
 final _formKey = GlobalKey<FormState>();
 
-class TaskForm extends StatelessWidget {
+// Création de noms pour les champs du formulaire
+final contentNameController = TextEditingController();
+final auteurNameController = TextEditingController();
+String prioriteController = "low";
+DateTime selectedDueDate = DateTime.now();
 
+
+class TaskForm extends StatefulWidget {
 
   const TaskForm({super.key});
 
+  @override
+  _TaskFormState createState() => _TaskFormState();
+}
 
-  TextFormField _textFormField(String label, String hintText){
+class _TaskFormState extends State<TaskForm>{
+
+
+  TextFormField _textFormField(String label, String hintText, TextEditingController tec){
     return TextFormField(
       decoration: InputDecoration(
         labelText: "${label} : ",
@@ -26,17 +39,14 @@ class TaskForm extends StatelessWidget {
           return null;
         }
       },
+      controller: tec, // Valeur du champ qu'on récupère grâce au contrôleur
     );
   }
 
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Formulaire'),
-      ),
-      body: Container(
+    return Container(
         margin: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
@@ -45,13 +55,13 @@ class TaskForm extends StatelessWidget {
               // Form pour le content
               Container(
                 margin: const EdgeInsets.all(20),
-                child: _textFormField("Content", "content"),
+                child: _textFormField("Content", "content", contentNameController),
               ),
 
               // Form pour l'auteur
               Container(
                 margin: const EdgeInsets.all(20),
-                child: _textFormField("Auteur", "auteur"),
+                child: _textFormField("Auteur", "auteur", auteurNameController),
               ),
 
 
@@ -64,26 +74,34 @@ class TaskForm extends StatelessWidget {
                         DropdownMenuItem(value: "normal", child: Text("Normal")),
                         DropdownMenuItem(value: "high", child: Text("High")),
                       ],
-                      value: "low",
-                      decoration: const InputDecoration(
-                          border: OutlineInputBorder()
-                      ),
-                      onChanged: (value){}
+                   decoration: const InputDecoration(
+                       border: OutlineInputBorder()
+                   ),
+                      value: prioriteController,
+                      onChanged: (value){
+                        setState((){
+                            prioriteController = value!;
+                        });
+                      },
                   )
               ),
 
 
               // Champ pour la date de fin de la tâche
-              DateTimeFormField(
-                decoration: const InputDecoration(
-                  labelText: 'Enter Date',
+              Container(
+                margin: const EdgeInsets.only(bottom: 10),
+                child: DateTimeFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'Choisir une Date',
+                  ),
+                  mode: DateTimeFieldPickerMode.time,
+                  initialPickerDateTime: DateTime.now().add(const Duration(days: 20)),
+                  onChanged: (DateTime? value) {
+                    setState((){
+                      selectedDueDate = value!;
+                    });
+                  },
                 ),
-                firstDate: DateTime.now().add(const Duration(days: 10)),
-                lastDate: DateTime.now().add(const Duration(days: 40)),
-                initialPickerDateTime: DateTime.now().add(const Duration(days: 20)),
-                onChanged: (DateTime? value) {
-                  //selectedDate = value;
-                },
               ),
 
 
@@ -93,9 +111,14 @@ class TaskForm extends StatelessWidget {
                     width: double.infinity,
                     child : ElevatedButton(
                       onPressed: (){
+                        // Si le formulaire est validé
                         if(_formKey.currentState!.validate()){
+                          // Récupère les valeurs des champs du formulaire
+                          final auteur = auteurNameController.text;
+                          final contextVal = contentNameController.text;
+
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text("Envoie en cours..."))
+                            const SnackBar(content: Text("La tâche a été ajouté!"))
                           );
                         }
                       },
@@ -106,7 +129,6 @@ class TaskForm extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }
