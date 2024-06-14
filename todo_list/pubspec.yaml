@@ -39,6 +39,7 @@ dependencies:
   uuid: ^4.4.0
   faker_x: ^0.6.16
   faker: ^2.1.0
+  date_field: ^5.2.1
 
 dev_dependencies:
   flutter_test:

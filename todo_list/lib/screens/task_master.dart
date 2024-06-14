@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:todo_list/services/task_service.dart';
 import 'package:uuid/uuid.dart';
@@ -48,6 +49,14 @@ class TaskMaster extends StatelessWidget {
               }
             }
         ),
+      ),
+
+      floatingActionButton: FloatingActionButton(
+        // Changement de route va sur l'écran fenêtre
+        onPressed: () { Navigator.pushNamed(context, '/taskForm'); },
+        tooltip: 'Increment',
+        backgroundColor: Colors.orange,
+        child: const Icon(Icons.add),
       ),
     );
   }
