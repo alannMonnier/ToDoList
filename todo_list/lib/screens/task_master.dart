@@ -8,11 +8,11 @@ import '../services/task_service.dart';
 
 var uuid = const Uuid();
 
+final TaskService taskService = TaskService();
+
 class TaskMaster extends StatelessWidget {
 
-  final TaskService taskService;
-
-  const TaskMaster({super.key, required this.taskService});
+  const TaskMaster({super.key});
 
   @override
   Widget build(BuildContext context) {

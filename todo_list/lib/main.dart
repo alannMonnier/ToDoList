@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'main_app.dart';
+import 'todolist_app.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const TodoListApp());
 }
