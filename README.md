@@ -11,3 +11,19 @@ Etape 2 :
 - Création d'une classe Task
 - Création d'une classe Tag
 - Création d'une classe User
+
+Etape 3 : 
+- Création d'un service TaskService pour créer des tâches
+- Utilisation du package faker
+
+Etape 4 : 
+- Création d'une fenêtre TaskMaster pour afficher la liste de taches créées
+- Création d'un task preview qui affiche les informations basique sur une tache
+- Création d'un objet TaskDetails
+
+Etape 5 : 
+- Création d'un menu de navigation
+- Création d'un formulaire pour ajouter une tâche
+- Construction Ecran TaskDetails (oublie de la partie précédente)
+
+Etape 6 :
