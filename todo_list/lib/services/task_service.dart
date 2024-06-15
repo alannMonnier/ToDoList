@@ -4,7 +4,7 @@ import 'package:todo_list/models/task.dart';
 
 class TaskService {
 
-  late List<Task> tasks;
+  List<Task> tasks = [];
 
   // Retourne une Future de type 'List' (liste d'objets Task)
   Future<List<Task>>? fetchTask() async {

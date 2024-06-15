@@ -3,6 +3,8 @@ import 'package:todo_list/screens/task_form.dart';
 import 'package:todo_list/screens/task_master.dart';
 import 'package:todo_list/services/task_service.dart';
 
+import 'models/task.dart';
+
 
 
 class TodoListApp extends StatefulWidget {
@@ -16,12 +18,15 @@ class _TodolistAppState extends State<TodoListApp> {
 
   int _currentIndexPage = 0;
 
+
   // Change l'index de la page de l'application
   setCurrentIndexPage(int index){
     setState(() {
       _currentIndexPage = index;
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {

@@ -15,6 +15,6 @@ class TaskDetails extends StatefulWidget {
 class _DetailsState extends State<TaskDetails> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold();
   }
 }
