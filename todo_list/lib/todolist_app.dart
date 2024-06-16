@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/providers/task_provider.dart';
 import 'package:todo_list/screens/task_form.dart';
 import 'package:todo_list/screens/task_master.dart';
 import 'package:todo_list/services/task_service.dart';
@@ -30,41 +32,45 @@ class _TodolistAppState extends State<TodoListApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(
-            title: [
-              const Text("Accueil : ToDoList Application"), const Text("Formulaire: Ajout d'une tâche")
-            ][_currentIndexPage],
+    // Ajoute le changeNofitifier Provider pour que TaskForm est accès au notifier provider
+    return ChangeNotifierProvider(
+      create: (context) => TaskProvider(),
+      child: MaterialApp(
+          home: Scaffold(
+            appBar: AppBar(
+              title: [
+                const Text("Accueil : ToDoList Application"), const Text("Formulaire: Ajout d'une tâche")
+              ][_currentIndexPage],
+            ),
+            body: [
+              // Liste des pages ou l'on peut naviguer
+              const TaskMaster(),
+              const TaskForm()
+            ][_currentIndexPage], // Pointe vers une pages en fonction de l'index
+            bottomNavigationBar: BottomNavigationBar(
+              currentIndex: _currentIndexPage, // Numéro de la page courante
+              // Change l'index la page courante en cliquant sur un des elements de la barre de navigation
+              onTap: (index) => {
+                setCurrentIndexPage(index),
+              },
+              selectedItemColor: Colors.green,
+              unselectedItemColor: Colors.grey,
+              iconSize: 32,
+              elevation: 15,
+              // Ombres
+              items: const [
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home),
+                  label: "Accueil",
+                ),
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.add),
+                  label: "Ajouter tâche",
+                ),
+              ],
+            ),
           ),
-          body: [
-            // Liste des pages ou l'on peut naviguer
-            const TaskMaster(),
-            const TaskForm()
-          ][_currentIndexPage], // Pointe vers une pages en fonction de l'index
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: _currentIndexPage, // Numéro de la page courante
-            // Change l'index la page courante en cliquant sur un des elements de la barre de navigation
-            onTap: (index) => {
-              setCurrentIndexPage(index),
-            },
-            selectedItemColor: Colors.green,
-            unselectedItemColor: Colors.grey,
-            iconSize: 32,
-            elevation: 15,
-            // Ombres
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: "Accueil",
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.add),
-                label: "Ajouter tâche",
-              ),
-            ],
-          ),
-        ),
+      ),
     );
   }
 }

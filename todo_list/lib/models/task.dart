@@ -21,6 +21,11 @@ class Task{
         id= pid ??id;
   }
 
+  // Récupère l'id de la tache
+  String? getId(){
+    return id;
+  }
+
   void setAttributes(String userid, String content, bool completed, DateTime updatedAt, DateTime dueDate, String priority, String title){
     this.userid = userid;
     this.content = content;

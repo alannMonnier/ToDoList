@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/providers/task_provider.dart';
 import 'package:todo_list/screens/task_details.dart';
+import 'package:todo_list/screens/task_form.dart';
 import 'package:todo_list/services/task_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -22,42 +25,56 @@ class TaskMaster extends StatefulWidget {
 
 class _TaskMaster extends State<TaskMaster>{
 
+
+  // Initialise les tâches au chargement de la page
+  @override
+  void initState() {
+    super.initState();
+    // Récupère les tâches depuis le taskService
+    _fetchTasks();
+  }
+
+  // Récupère les taches et les ajoute a la liste du TaskProvider
+  Future<void> _fetchTasks() async {
+    List<Task>? tasks = await TaskService().fetchTask();
+    // Récupère l'instance de TaskProvider depuis le context du widget
+    context.read<TaskProvider>().createListTasks(tasks!);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: FutureBuilder<List<Task>>(
-              future: taskService.fetchTask(),
-              // Builder gérer le cas d'error, de data et de load
-              builder: (BuildContext context, AsyncSnapshot<List<Task>> snapshot){
-                if(snapshot.hasData){
+          // Consumer va écouter les changements du provider pour modifier la liste des tâches
+          child: Consumer<TaskProvider>(
+              // context du widget courant, instance de TaskProvider
+              builder: (context, taskProvider, child){
                   return Column(
                     children: [
                       Expanded(
                           child: ListView.builder(
                             padding: const EdgeInsets.all(8),
-                            itemCount: snapshot.data?.length,
+                            itemCount: taskProvider.getList().length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index){
                               return GestureDetector(
                                   onTap: () async {
                                     // On récupère le résultat pour savoir si oui ou non on met à jour la liste de tache
-                                    final tacheAjoutee = await Navigator.push(
+                                    final tacheModifiee = await Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder : (context) => TaskDetails(task : snapshot.data![index]),
+                                        builder : (context) => TaskDetails(task : taskProvider.getList()[index]),
                                       ),
                                     );
 
-                                    // Si on a effectué une modification et validé alors on met a jour la liste
-                                    if(tacheAjoutee != null){
-                                      setState(() {
-                                        snapshot.data![index] = tacheAjoutee;
-                                      });
-                                    }
+                                    final bool modif = tacheModifiee['modif'];
+                                    if(modif == true){
 
+                                      // Modification de la tache sélectionnée
+                                      taskProvider.updatedTask(tacheModifiee["task"].getId(), tacheModifiee["task"]);
+                                    }
                                   },
-                                  child: TaskPreview(task: snapshot.data![index]),
+                                  child: TaskPreview(task: taskProvider.getList()[index]),
                               );
                               // Obliger de mettre un point ! pour imposer que la valeur en paramètre n'est pas nulle
 
@@ -67,14 +84,6 @@ class _TaskMaster extends State<TaskMaster>{
                     ]
                   );
                 }
-                else if(snapshot.hasError){
-                  return Text('Error : ${snapshot.error}');
-                }
-                // Chargement
-                else{
-                  return const Text("Loading...");
-                }
-              }
           ),
         ),
     );

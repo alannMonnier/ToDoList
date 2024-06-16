@@ -23,6 +23,7 @@ class _DetailsState extends State<TaskDetails> {
   final auteurNameController = TextEditingController();
   final titleNameController = TextEditingController();
   var completed = false;
+  var modif = false; // Envoie a TaskMaster si une modification a eu lieu ou non
   // Gestion des tags
   String prioriteController = "normal";
   DateTime selectedDueDate = DateTime.now();
@@ -173,18 +174,19 @@ class _DetailsState extends State<TaskDetails> {
                           if(_formKey.currentState!.validate()){
         
                             // Modifie les valeurs de la tâche courante
-                            setState(() {
-                              widget.task.setAttributes(
-                                auteurNameController.text, contentNameController.text, completed,
-                                selectedUpdatedDate, selectedDueDate, prioriteController, titleNameController.text
-                              );
-                            });
+
+                            widget.task.setAttributes(
+                              auteurNameController.text, contentNameController.text, completed,
+                              selectedUpdatedDate, selectedDueDate, prioriteController, titleNameController.text
+                            );
+
+
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(content: Text("La tâche a été modifié!"))
                             );
-        
+
                             // Redirection vers la page d'accueil
-                            Navigator.pop(context, widget.task);
+                            Navigator.pop(context, {'task' : widget.task, 'modif' : true});
                           }
                         },
                         child: const Text("Save"),
