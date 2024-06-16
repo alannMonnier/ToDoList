@@ -27,3 +27,6 @@ Etape 5 :
 - Construction Ecran TaskDetails (oublie de la partie précédente)
 
 Etape 6 :
+- Mise en place de la classe TaskProvider
+- Ajout widget consumer pour modifier une tâche
+- Ajout widget consumer pour ajouter une tâche ( ne marche pas a remodifier plus tard)
