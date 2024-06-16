@@ -10,7 +10,7 @@ class TaskService {
   Future<List<Task>>? fetchTask() async {
     var faker = new Faker();
     var tab = ["low", "normal", "high"];
-    tasks = List.generate(100,
+    tasks = List.generate(10,
             (index) => Task(
             pTitle: faker.lorem.sentence(),
             content: faker.lorem.sentence(),

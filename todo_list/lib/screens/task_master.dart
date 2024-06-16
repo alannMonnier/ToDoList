@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/screens/task_details.dart';
 import 'package:todo_list/services/task_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -38,8 +39,28 @@ class _TaskMaster extends State<TaskMaster>{
                             itemCount: snapshot.data?.length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (BuildContext context, int index){
+                              return GestureDetector(
+                                  onTap: () async {
+                                    // On récupère le résultat pour savoir si oui ou non on met à jour la liste de tache
+                                    final tacheAjoutee = await Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder : (context) => TaskDetails(task : snapshot.data![index]),
+                                      ),
+                                    );
+
+                                    // Si on a effectué une modification et validé alors on met a jour la liste
+                                    if(tacheAjoutee != null){
+                                      setState(() {
+                                        snapshot.data![index] = tacheAjoutee;
+                                      });
+                                    }
+
+                                  },
+                                  child: TaskPreview(task: snapshot.data![index]),
+                              );
                               // Obliger de mettre un point ! pour imposer que la valeur en paramètre n'est pas nulle
-                              return TaskPreview(task: snapshot.data![index]);
+
                             },
                           ),
                         ),

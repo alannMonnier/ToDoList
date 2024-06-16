@@ -21,6 +21,16 @@ class Task{
         id= pid ??id;
   }
 
+  void setAttributes(String userid, String content, bool completed, DateTime updatedAt, DateTime dueDate, String priority, String title){
+    this.userid = userid;
+    this.content = content;
+    this.completed = completed;
+    this.updatedAt = updatedAt;
+    this.dueDate = dueDate;
+    this.priority = priority;
+    this.title = title;
+  }
+
   @override
   String toString() {
     return "Task(content:$content, id:$id)";
