@@ -30,3 +30,6 @@ Etape 6 :
 - Mise en place de la classe TaskProvider
 - Ajout widget consumer pour modifier une tâche
 - Ajout widget consumer pour ajouter une tâche ( ne marche pas a remodifier plus tard)
+
+  Etape 7:
+  - Factorisation des Formulaires d'édition et d'ajout
