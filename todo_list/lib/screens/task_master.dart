@@ -38,9 +38,12 @@ class _TaskMaster extends State<TaskMaster>{
 
   // Récupère les taches et les ajoute a la liste du TaskProvider
   Future<void> _fetchTasks() async {
-    List<Task>? tasks = await TaskService().fetchTask();
-    // Récupère l'instance de TaskProvider depuis le context du widget
-    context.read<TaskProvider>().createListTasks(tasks!);
+    // Condition pour éviter le rechargement de la liste à chaque retour sur la page
+    if(Provider.of<TaskProvider>(context, listen: false).getList().isEmpty){
+      List<Task>? tasks = await TaskService().fetchTask();
+      // Récupère l'instance de TaskProvider depuis le context du widget
+      context.read<TaskProvider>().createListTasks(tasks!);
+    }
   }
 
   @override
@@ -79,7 +82,6 @@ class _TaskMaster extends State<TaskMaster>{
                                   child: TaskPreview(task: taskProvider.getList()[index]),
                               );
                               // Obliger de mettre un point ! pour imposer que la valeur en paramètre n'est pas nulle
-
                             },
                           ),
                         ),

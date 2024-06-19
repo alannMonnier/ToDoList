@@ -21,7 +21,7 @@ class TaskProvider extends ChangeNotifier{
   }
 
   // Supprime une tâche dans la liste via son id
-  void removeTaskById(String idTask){
+  void removeTaskById(String? idTask){
     _tasks.removeWhere((elt) => elt.id == idTask);
     notifyListeners();
   }

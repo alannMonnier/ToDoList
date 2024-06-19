@@ -4,19 +4,19 @@ import 'package:uuid/uuid.dart';
 var uuid = const Uuid();
 
 class Tag{
-  String? id;
+  String? idTag;
   String? value;
   String? userid; // Auteur
   List<Task>? tasks;
 
 
-  Tag({required this.value, required this.userid, String? pid}) : tasks = [], id=uuid.v4(){
-    id= pid ??id;
+  Tag({required this.value, required this.userid, String? pid}) : tasks = [], idTag=uuid.v4(){
+    idTag= pid ??idTag;
   }
 
   @override
   String toString() {
-    return "Task(Value: $value, id:$id)";
+    return "Task(Value: $value, id:$idTag)";
   }
 
 }

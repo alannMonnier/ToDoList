@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/providers/task_provider.dart';
 
 import '../models/task.dart';
 
@@ -38,13 +40,27 @@ class _TaskPreview extends State<TaskPreview>{
           title: Text(
             "Id : ${widget.task.id} \nContent : ${widget.task.content}",
           ),
-          trailing: Checkbox(
-            value: widget.task.completed,
-            onChanged: (bool? value) {
-              setState((){
-                widget.task.completed = value!;
-              });
-            },
+          trailing: Column(
+            children: [
+              Expanded(
+                child: Checkbox(
+                  value: widget.task.completed,
+                  onChanged: (bool? value) {
+                    setState((){
+                      widget.task.completed = value!;
+                    });
+                  },
+                ),
+              ),
+
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.red),
+                onPressed: () {
+                  Provider.of<TaskProvider>(context, listen: false).removeTaskById(widget.task.id);
+                },
+              ),
+
+            ],
           ),
         ),
     );

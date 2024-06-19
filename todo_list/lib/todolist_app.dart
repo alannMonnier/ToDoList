@@ -45,9 +45,7 @@ class _TodolistAppState extends State<TodoListApp> {
   @override
   Widget build(BuildContext context) {
     // Ajoute le changeNofitifier Provider pour que TaskForm est accès au notifier provider
-    return ChangeNotifierProvider(
-      create: (context) => TaskProvider(),
-      child: MaterialApp(
+    return MaterialApp(
           home: Scaffold(
             appBar: AppBar(
               title: [
@@ -96,7 +94,6 @@ class _TodolistAppState extends State<TodoListApp> {
               ],
             ),
           ),
-      ),
     );
   }
 }

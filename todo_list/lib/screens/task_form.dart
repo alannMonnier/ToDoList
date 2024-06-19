@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/providers/task_provider.dart';
 import 'package:uuid/uuid.dart';
-
 import '../models/task.dart';
 import '../todolist_app.dart';
 
@@ -167,6 +166,11 @@ class _TaskFormState extends State<TaskForm>{
                             margin: const EdgeInsets.all(20),
                             child: _dateTimeFormField(selectedDueDate)
                           ),
+
+                          // Champs pour choisir des tags
+                          //MultiSelectFormField(
+                          //  items: ta
+                          //)
                   
                         ],
                       if(widget.formMode == FormMode.Edit) ...[
@@ -232,8 +236,9 @@ class _TaskFormState extends State<TaskForm>{
                                         dueDate: selectedDueDate,
                                         priority: prioriteController
                                     );
-                  
-                                    taskProvider.addTask(task);
+
+                                    Provider.of<TaskProvider>(context, listen: false).addTask(task);
+
                   
                                     ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(

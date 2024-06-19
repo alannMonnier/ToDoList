@@ -17,7 +17,8 @@ class TaskService {
             userid: uuid.v1(),
             dueDate: faker.date.dateTime(),
             priority: tab[faker.randomGenerator.integer(tab.length)],
-            completed: faker.randomGenerator.boolean()
+            completed: faker.randomGenerator.boolean(),
+
         ));
     return tasks;
   }
