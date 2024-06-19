@@ -33,3 +33,5 @@ Etape 6 :
 
   Etape 7:
   - Factorisation des Formulaires d'édition et d'ajout
+  - Débuggage et ajout de tache dans une liste
+  - Ajout de la fonctionnalité de suppression
