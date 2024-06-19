@@ -1,10 +1,16 @@
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
+import 'package:multi_select_flutter/dialog/multi_select_dialog_field.dart';
+import 'package:multi_select_flutter/util/multi_select_item.dart';
+import 'package:multi_select_flutter/util/multi_select_list_type.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/providers/task_provider.dart';
 import 'package:uuid/uuid.dart';
+import '../models/tag.dart';
 import '../models/task.dart';
 import '../todolist_app.dart';
+
+
 
 var uuid = const Uuid();
 enum FormMode {Add, Edit}
@@ -35,6 +41,9 @@ class _TaskFormState extends State<TaskForm>{
   DateTime selectedUpdatedDate = DateTime.now();
 
 
+  late List<String?> tags = ["tag 1", "tag 2", "tag 3"];
+  List<Tag> tagsSelected = [];
+
   // Initialise les valeurs associés au champs du formulaire
   @override
   void initState() {
@@ -49,6 +58,16 @@ class _TaskFormState extends State<TaskForm>{
       selectedDueDate = widget.task?.dueDate ?? DateTime.now();
       selectedUpdatedDate = widget.task?.updatedAt ?? DateTime.now();
       completed = widget.task!.completed!;
+      tags = [];
+
+      for(int i=0; i<widget.task!.tags!.length; i++){
+        tags.add(widget.task!.tags?[i].getValue());
+      }
+      tags.add("Tag 212");
+      tags.add("Tag 12");
+      tags.add("Tag 432");
+      tags.add("Tag 78");
+
     }else{
       // Formulaire ajout d'une tâche
       contentNameController.text =  "";
@@ -168,10 +187,20 @@ class _TaskFormState extends State<TaskForm>{
                           ),
 
                           // Champs pour choisir des tags
-                          //MultiSelectFormField(
-                          //  items: ta
-                          //)
-                  
+
+                          Container(
+                              margin: const EdgeInsets.all(20),
+                              child : MultiSelectDialogField<String>(
+                                items: tags.map((tag) => MultiSelectItem<String>(tag!, tag)).toList(),
+                                listType: MultiSelectListType.CHIP,
+                                onConfirm: (values) {
+                                  tagsSelected = [];
+                                  for(int i=0; i<values.length; i++){
+                                    tagsSelected.add(Tag(value : values[i], userid : uuid.v1(), pid: uuid.v1()) );
+                                  }
+                                },
+                              ),
+                          ),
                         ],
                       if(widget.formMode == FormMode.Edit) ...[
                         Row(
@@ -216,7 +245,8 @@ class _TaskFormState extends State<TaskForm>{
                   
                                       widget.task?.setAttributes(
                                           auteurNameController.text, contentNameController.text, completed,
-                                          selectedUpdatedDate, selectedDueDate, prioriteController, titleNameController.text
+                                          selectedUpdatedDate, selectedDueDate, prioriteController, titleNameController.text,
+                                          tagsSelected
                                       );
                   
                                       ScaffoldMessenger.of(context).showSnackBar(
@@ -234,7 +264,8 @@ class _TaskFormState extends State<TaskForm>{
                                         content: contentNameController.text,
                                         userid: auteurNameController.text,
                                         dueDate: selectedDueDate,
-                                        priority: prioriteController
+                                        priority: prioriteController,
+                                        tags: tagsSelected
                                     );
 
                                     Provider.of<TaskProvider>(context, listen: false).addTask(task);

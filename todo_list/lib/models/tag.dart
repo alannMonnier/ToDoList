@@ -22,6 +22,10 @@ class Tag{
     );
   }
 
+  String? getValue(){
+    return value;
+  }
+
 
   Map<String, dynamic> toJson() => {
     'idTag' : idTag,

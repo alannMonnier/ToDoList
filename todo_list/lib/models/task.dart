@@ -18,8 +18,8 @@ class Task{
   String? title;
 
 
-  Task({ required this.content, required this.userid, required this.dueDate, required this.priority,
-    String? pTitle, String? pid, this.completed = false }) : id=uuid.v4(), tags =[], createdAt = DateTime.now(){
+  Task({ required this.content, required this.userid, required this.dueDate, required this.priority, required this.tags,
+    String? pTitle, String? pid, this.completed = false}) : id=uuid.v4(), createdAt = DateTime.now(){
         id= pid ??id;
   }
 
@@ -28,7 +28,8 @@ class Task{
     return id;
   }
 
-  void setAttributes(String userid, String content, bool completed, DateTime updatedAt, DateTime dueDate, String priority, String title){
+  void setAttributes(String userid, String content, bool completed, DateTime updatedAt, DateTime dueDate, String priority, String title,
+                    List<Tag> tags){
     this.userid = userid;
     this.content = content;
     this.completed = completed;
@@ -36,6 +37,7 @@ class Task{
     this.dueDate = dueDate;
     this.priority = priority;
     this.title = title;
+    this.tags = tags;
   }
 
 
@@ -48,6 +50,7 @@ class Task{
         dueDate : DateTime.parse(json['dueDate'] as String),
         priority : json['priority'] as String,
         pTitle : json['title'] as String,
+        tags: [],
     );
   }
 

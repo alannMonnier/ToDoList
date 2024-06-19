@@ -4,6 +4,12 @@ import 'package:faker/faker.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:todo_list/models/task.dart';
+import 'package:uuid/uuid.dart';
+
+import '../models/tag.dart';
+
+
+var uuid = const Uuid();
 
 class TaskService {
 
@@ -14,7 +20,7 @@ class TaskService {
   Future<List<Task>>? fetchTask() async {
     var faker = new Faker();
     var tab = ["low", "normal", "high"];
-    tasks = List.generate(100,
+    tasks = List.generate(4,
             (index) => Task(
             pTitle: faker.lorem.sentence(),
             content: faker.lorem.sentence(),
@@ -22,6 +28,11 @@ class TaskService {
             dueDate: faker.date.dateTime(),
             priority: tab[faker.randomGenerator.integer(tab.length)],
             completed: faker.randomGenerator.boolean(),
+            tags: [Tag(value : faker.lorem.word(), userid : faker.lorem.word(), pid: uuid.v1()),
+              Tag(value : faker.lorem.word(), userid : faker.lorem.word(), pid: uuid.v1()),
+              Tag(value : faker.lorem.word(), userid : faker.lorem.word(), pid: uuid.v1()),
+              Tag(value : faker.lorem.word(), userid : faker.lorem.word(), pid: uuid.v1())
+            ]
         ));
     return tasks;
   }
