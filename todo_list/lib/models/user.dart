@@ -15,6 +15,26 @@ class User{
     id= pid ??id;
   }
 
+
+  factory User.fromJson(Map<String, dynamic> json){
+    return User(
+      pid : json['id'] as String,
+      firstname : json['firstname'] as String,
+      lastname : json['lastname'] as String,
+      email : json['email'] as String,
+      password : json['password'] as String,
+    );
+  }
+
+
+  Map<String, dynamic> toJson() => {
+    'id' : id,
+    'firstname' : firstname,
+    'lastname' : lastname,
+    'email' : email,
+    'password' : password
+  };
+
   @override
   String toString() {
     return "Task(Firstname: $firstname, Lastname: $lastname, ID: $id)";

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:todo_list/models/tag.dart';
 import 'package:uuid/uuid.dart';
 
@@ -35,6 +37,31 @@ class Task{
     this.priority = priority;
     this.title = title;
   }
+
+
+  factory Task.fromJson(Map<String, dynamic> json){
+    return Task(
+        pid : json['idTask'] as String,
+        userid : json['userid'] as String,
+        content : json['content'] as String,
+        completed : json['completed'] as bool,
+        dueDate : DateTime.parse(json['dueDate'] as String),
+        priority : json['priority'] as String,
+        pTitle : json['title'] as String,
+    );
+  }
+
+
+  Map<String, dynamic> toJson() => {
+    'idTask' : id,
+    'userid' : userid,
+    'content' : content,
+    'completed' : completed,
+    'dueDate' : dueDate?.toIso8601String(),
+    'priority' : priority,
+    'title' : title
+  };
+
 
   @override
   String toString() {
