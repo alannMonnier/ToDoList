@@ -35,3 +35,14 @@ Etape 6 :
   - Factorisation des Formulaires d'édition et d'ajout
   - Débuggage et ajout de tache dans une liste
   - Ajout de la fonctionnalité de suppression
+ 
+  Etape 8 :
+  - Ajout tables dans supabase
+  - Début structure Supabase
+  - Ajout des méthodes JSON
+  - Correction problème ajout d'une tâche
+
+  Etape 9 :
+  - Mise en place Ecrans SignIn
+  - Ajout champs de multiSélection pour ajouter les tags
+  
